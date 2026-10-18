@@ -8,6 +8,10 @@ Before=multi-user.target
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/etc/adb_conf.sh
+# Type-C 控制器在开机早期尚未就绪，adb_conf.sh 写入的 usb_device 可能被覆盖成
+# usb_host；此时 UDC 保持 not attached，主机永远看不到设备。这里在启动后重试，
+# 只在 UDC 未连接时补写角色。
+ExecStartPost=-/bin/sh -c 'for i in 1 2 3 4; do sleep 1; grep -q "not attached" /sys/class/udc/*/state 2>/dev/null && echo usb_device > /sys/devices/platform/soc@3000000/10.usbc0/otg_role; done'
 ExecStop=/etc/adb_conf.sh stop
 TimeoutStartSec=60
 
