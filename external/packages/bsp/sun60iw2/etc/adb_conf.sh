@@ -73,8 +73,12 @@ case "$1" in
         otg_role_file="/sys/bus/platform/drivers/otg manager/10.usbc0/otg_role"
         [ -f "$otg_role_file" ] && otg_role=`cat "$otg_role_file"`
         if /sbin/ifconfig > /dev/null 2>&1 && [ "x$otg_role" != "xusb_host" ];then
+			# 3SE fork: 设备序列号优先取 /etc/firefly/adb-serial（产线逐台写入），
+			# 缺失时回落到厂商原有的 /etc/.autotest 机制
+			serial_file=/etc/firefly/adb-serial
+			[ -s "$serial_file" ] && serialnumber=`head -n1 "$serial_file" | tr -d '\r' | tr -d '[:space:]'`
 			autotest=/etc/.autotest
-            [ -f $autotest ] && serialnumber=`cat $autotest`
+			[ -z "$serialnumber" ] && [ -f $autotest ] && serialnumber=`cat $autotest`
             start_adb $serialnumber
         fi
         ;;
