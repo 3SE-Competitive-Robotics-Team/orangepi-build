@@ -1,0 +1,15 @@
+[Unit]
+Description=ADB daemon over USB gadget (Orange Pi)
+Documentation=man:systemd.special(7)
+After=local-fs.target usb-gadget.target
+Before=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/etc/adb_conf.sh
+ExecStop=/etc/adb_conf.sh stop
+TimeoutStartSec=60
+
+[Install]
+WantedBy=multi-user.target

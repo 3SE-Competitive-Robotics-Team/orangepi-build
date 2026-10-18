@@ -22,7 +22,11 @@ kernel
 output
 u-boot
 toolchains
-userpatches
+# 3SE fork: build artifacts below stay ignored; board customization is tracked in-tree
+userpatches/*
+!userpatches/customize-image.sh
+!userpatches/overlay/
+!userpatches/overlay/**
 
 mkimage.sh
 
