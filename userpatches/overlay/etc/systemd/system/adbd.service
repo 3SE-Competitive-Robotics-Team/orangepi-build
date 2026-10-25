@@ -7,6 +7,7 @@ Before=multi-user.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+Environment=TERM=xterm-256color
 ExecStart=/etc/adb_conf.sh
 # Type-C 控制器在开机早期尚未就绪，adb_conf.sh 写入的 usb_device 可能被覆盖成
 # usb_host；此时 UDC 保持 not attached，主机永远看不到设备。这里在启动后重试，
