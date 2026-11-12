@@ -534,7 +534,7 @@ if [[ ${IGNORE_UPDATES} != yes ]]; then
 
 	fi
 
-	if [[ ${BOARDFAMILY} == "sun60iw2" && $RELEASE =~ bullseye ]]; then
+	if [[ ${BOARDFAMILY} == "sun60iw2" ]]; then
 		if [[ ${GITEE_SERVER} == yes ]]; then
 		[[ ${BUILD_OPT} == image ]] && fetch_from_repo "https://gitee.com/orangepi-xunlong/sun60iw2_packages.git" "${EXTER}/cache/sources/sun60iw2_packages" "branch:sun60iw2_packages"
 		else
