@@ -30,8 +30,10 @@ install_sun60iw2_headless_gpu() (
 		"$SDCARD/etc/ld.so.conf.d" "$SDCARD/etc/modules-load.d" \
 		"$SDCARD/usr/share/vulkan/icd.d" "$SDCARD/lib/modules/$kernel_release/extra" || exit 1
 	for library in libVK_IMG libsrv_um libusc libufwriter; do
-		cp -a "$staging/usr/lib/$library".so* "$SDCARD/usr/lib/powervr/" || exit 1
+		cp -a --no-preserve=ownership "$staging/usr/lib/$library".so* "$SDCARD/usr/lib/powervr/" || exit 1
 	done
+	# Vendor files carry developer UIDs and group-write permissions.
+	chmod 644 "$SDCARD/usr/lib/powervr/"*.so* || exit 1
 	install -m 644 "$staging/usr/local/lib/libpvr_mesa_wsi.so" "$SDCARD/usr/lib/powervr/" || exit 1
 	install -m 644 "$staging/lib/firmware/rgx.fw.36.56.104.183" \
 		"$staging/lib/firmware/rgx.sh.36.56.104.183" "$SDCARD/lib/firmware/" || exit 1
