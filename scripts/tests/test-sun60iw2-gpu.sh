@@ -47,6 +47,11 @@ family_tweaks_s
 set -u
 [[ -f $SDCARD/usr/lib/powervr/libVK_IMG.so ]]
 [[ -f $SDCARD/usr/lib/powervr/libpvr_mesa_wsi.so ]]
+for library in "$SDCARD/usr/lib/powervr/"*; do
+	[[ $(stat -c %u "$library") == "$(id -u)" ]]
+	[[ $(stat -c %g "$library") == "$(id -g)" ]]
+	[[ $(stat -Lc %a "$library") == 644 ]]
+done
 [[ -f $SDCARD/lib/firmware/rgx.fw.36.56.104.183 ]]
 [[ -f $SDCARD/lib/firmware/rgx.sh.36.56.104.183 ]]
 [[ -f $SDCARD/lib/modules/6.6.98-sun60iw2/extra/pvrsrvkm.ko ]]
